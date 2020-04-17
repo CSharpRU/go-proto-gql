@@ -17,6 +17,7 @@ import (
 	"github.com/gogo/protobuf/types"
 	golangproto "github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes/any"
+	"google.golang.org/genproto/googleapis/api/annotations"
 )
 
 const (
@@ -414,6 +415,13 @@ func (p *Plugin) getMethodType(rpc *descriptor.MethodDescriptorProto) gql.Type {
 			tt := v.(*gql.Type)
 			if tt != nil {
 				return *tt
+			}
+		}
+		v, err = golangproto.GetExtension(rpc.Options, annotations.E_Http)
+		if err == nil {
+			tt := v.(*annotations.HttpRule)
+			if tt != nil && tt.GetGet() != "" {
+				return gql.Type_QUERY
 			}
 		}
 	}
