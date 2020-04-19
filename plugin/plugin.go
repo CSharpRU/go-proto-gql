@@ -418,6 +418,10 @@ func (p *Plugin) getMethodType(rpc *descriptor.MethodDescriptorProto) gql.Type {
 			}
 		}
 		v, err = golangproto.GetExtension(rpc.Options, annotations.E_Http)
+		log.Printf("%+v", v)
+		log.Printf("%+v", err)
+		log.Printf("%+v", rpc.Options)
+		log.Printf("%+v", rpc)
 		if err == nil {
 			tt := v.(*annotations.HttpRule)
 			if tt != nil && tt.GetGet() != "" {
