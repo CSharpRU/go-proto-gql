@@ -1,4 +1,4 @@
-module github.com/danielvladco/go-proto-gql
+module github.com/csharpru/go-proto-gql
 
 require (
 	cloud.google.com/go v0.26.0 // indirect
