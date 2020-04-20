@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	gqlplugin "github.com/danielvladco/go-proto-gql/plugin"
+	gqlplugin "github.com/csharpru/go-proto-gql/plugin"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/protoc-gen-gogo/generator"
 	"github.com/gogo/protobuf/vanity"
@@ -88,7 +88,7 @@ func (p *plugin) Generate(file *generator.FileDescriptor) {
 	p.PluginImports = generator.NewPluginImports(p.Generator)
 	p.fmtPkg = p.NewImport("fmt")
 	p.ioPkg = p.NewImport("io")
-	p.graphqlPkg = p.NewImport("github.com/danielvladco/go-proto-gql/pb")
+	p.graphqlPkg = p.NewImport("github.com/csharpru/go-proto-gql/pb")
 	p.jsonPkg = p.NewImport("encoding/json")
 	p.contextPkg = p.NewImport("context")
 

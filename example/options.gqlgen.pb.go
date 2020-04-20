@@ -6,7 +6,7 @@ package pb
 import (
 	context "context"
 	fmt "fmt"
-	_ "github.com/danielvladco/go-proto-gql/pb"
+	_ "github.com/csharpru/go-proto-gql/pb"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
 )

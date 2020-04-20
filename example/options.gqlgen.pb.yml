@@ -7,16 +7,16 @@ model:
 models:
   Data:
     model:
-    - github.com/danielvladco/go-proto-gql/example.Data
+    - github.com/csharpru/go-proto-gql/example.Data
   DataInput:
     model:
-    - github.com/danielvladco/go-proto-gql/example.Data
+    - github.com/csharpru/go-proto-gql/example.Data
   Float32:
     model:
-    - github.com/danielvladco/go-proto-gql/pb.Float32
+    - github.com/csharpru/go-proto-gql/pb.Float32
   Foo2:
     model:
-    - github.com/danielvladco/go-proto-gql/example.Foo2
+    - github.com/csharpru/go-proto-gql/example.Foo2
   Foo2Input:
     model:
-    - github.com/danielvladco/go-proto-gql/example.Foo2
+    - github.com/csharpru/go-proto-gql/example.Foo2

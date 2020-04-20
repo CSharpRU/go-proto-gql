@@ -10,14 +10,16 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/danielvladco/go-proto-gql/pb"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
 	"github.com/gogo/protobuf/protoc-gen-gogo/generator"
 	"github.com/gogo/protobuf/types"
 	golangproto "github.com/golang/protobuf/proto"
+	golangdescriptor "github.com/golang/protobuf/protoc-gen-go/descriptor"
 	"github.com/golang/protobuf/ptypes/any"
 	"google.golang.org/genproto/googleapis/api/annotations"
+
+	"github.com/csharpru/go-proto-gql/pb"
 )
 
 const (
@@ -286,7 +288,7 @@ func (p *Plugin) getMessageType(file *descriptor.FileDescriptorProto, typeName s
 			// Any is considered to be scalar
 			if p.IsAny(typeName) {
 				p.scalars[typeName] = &Type{ModelDescriptor: ModelDescriptor{
-					PackageDir: "github.com/danielvladco/go-proto-gql/pb", //TODO generate gqlgen.yml
+					PackageDir: "github.com/csharpru/go-proto-gql/pb", //TODO generate gqlgen.yml
 					TypeName:   ScalarAny,
 				}}
 				return nil
@@ -331,28 +333,28 @@ func (p *Plugin) fillTypeMap(typeName string, objects map[string]*Type, inputFie
 				// defines scalars for unsupported graphql types
 				switch *field.Type {
 				case descriptor.FieldDescriptorProto_TYPE_BYTES:
-					p.scalars[ScalarBytes] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/danielvladco/go-proto-gql/pb", TypeName: ScalarBytes}}
+					p.scalars[ScalarBytes] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/csharpru/go-proto-gql/pb", TypeName: ScalarBytes}}
 
 				case descriptor.FieldDescriptorProto_TYPE_FLOAT:
-					p.scalars[ScalarFloat32] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/danielvladco/go-proto-gql/pb", TypeName: ScalarFloat32}}
+					p.scalars[ScalarFloat32] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/csharpru/go-proto-gql/pb", TypeName: ScalarFloat32}}
 
 				case descriptor.FieldDescriptorProto_TYPE_INT64,
 					descriptor.FieldDescriptorProto_TYPE_SINT64,
 					descriptor.FieldDescriptorProto_TYPE_SFIXED64:
-					p.scalars[ScalarInt64] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/danielvladco/go-proto-gql/pb", TypeName: ScalarInt64}}
+					p.scalars[ScalarInt64] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/csharpru/go-proto-gql/pb", TypeName: ScalarInt64}}
 
 				case descriptor.FieldDescriptorProto_TYPE_INT32,
 					descriptor.FieldDescriptorProto_TYPE_SINT32,
 					descriptor.FieldDescriptorProto_TYPE_SFIXED32:
-					p.scalars[ScalarInt32] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/danielvladco/go-proto-gql/pb", TypeName: ScalarInt32}}
+					p.scalars[ScalarInt32] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/csharpru/go-proto-gql/pb", TypeName: ScalarInt32}}
 
 				case descriptor.FieldDescriptorProto_TYPE_UINT32,
 					descriptor.FieldDescriptorProto_TYPE_FIXED32:
-					p.scalars[ScalarUint32] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/danielvladco/go-proto-gql/pb", TypeName: ScalarUint32}}
+					p.scalars[ScalarUint32] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/csharpru/go-proto-gql/pb", TypeName: ScalarUint32}}
 
 				case descriptor.FieldDescriptorProto_TYPE_UINT64,
 					descriptor.FieldDescriptorProto_TYPE_FIXED64:
-					p.scalars[ScalarUint64] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/danielvladco/go-proto-gql/pb", TypeName: ScalarUint64}}
+					p.scalars[ScalarUint64] = &Type{ModelDescriptor: ModelDescriptor{PackageDir: "github.com/csharpru/go-proto-gql/pb", TypeName: ScalarUint64}}
 				}
 
 				if !field.IsMessage() && !field.IsEnum() {
@@ -417,20 +419,9 @@ func (p *Plugin) getMethodType(rpc *descriptor.MethodDescriptorProto) gql.Type {
 				return *tt
 			}
 		}
-		v, err = golangproto.GetExtension(rpc.Options, annotations.E_Http)
-		log.Printf("%+v", v)
-		log.Printf("%+v", err)
-		log.Printf("%+v", rpc.Options)
-		log.Printf("%+v", rpc)
-		if err == nil {
-			tt := v.(*annotations.HttpRule)
-			if tt != nil && tt.GetGet() != "" {
-				return gql.Type_QUERY
-			}
-		}
 	}
 
-	return gql.Type_DEFAULT
+	return p.getMethodTypeFromGoogleAnnotations(rpc)
 }
 
 func (p *Plugin) getServiceType(svc *descriptor.ServiceDescriptorProto) gql.Type {
@@ -640,4 +631,23 @@ func (p *Plugin) InitFile(file *generator.FileDescriptor) {
 	p.defineGqlTypes(p.maps)
 	p.defineGqlTypes(p.scalars)
 	p.defineGqlTypes(p.oneofs)
+}
+
+func (p *Plugin) getMethodTypeFromGoogleAnnotations(rpc *descriptor.MethodDescriptorProto) gql.Type {
+	data, err := proto.Marshal(rpc)
+	if err == nil {
+		googleRpc := &golangdescriptor.MethodDescriptorProto{}
+		err := golangproto.Unmarshal(data, googleRpc)
+		if err == nil {
+			v, err := golangproto.GetExtension(googleRpc.Options, annotations.E_Http)
+			if err == nil {
+				tt := v.(*annotations.HttpRule)
+				if tt != nil && tt.GetGet() != "" {
+					return gql.Type_QUERY
+				}
+			}
+		}
+	}
+
+	return gql.Type_DEFAULT
 }

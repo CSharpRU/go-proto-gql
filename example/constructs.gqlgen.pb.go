@@ -7,7 +7,7 @@ import (
 	context "context"
 	encoding_json "encoding/json"
 	fmt "fmt"
-	github_com_danielvladco_go_proto_gql_pb "github.com/danielvladco/go-proto-gql/pb"
+	github_com_danielvladco_go_proto_gql_pb "github.com/csharpru/go-proto-gql/pb"
 	proto "github.com/golang/protobuf/proto"
 	_ "github.com/golang/protobuf/ptypes/any"
 	github_com_golang_protobuf_ptypes_any "github.com/golang/protobuf/ptypes/any"

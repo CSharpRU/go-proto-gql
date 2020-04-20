@@ -7,7 +7,7 @@ import (
 	"path"
 	"strings"
 
-	. "github.com/danielvladco/go-proto-gql/plugin"
+	. "github.com/csharpru/go-proto-gql/plugin"
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/protoc-gen-gogo/generator"
 	"gopkg.in/yaml.v2"
