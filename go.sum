@@ -4,6 +4,8 @@ github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/csharpru/go-proto-gql/pb v0.6.2-0.20200420114408-d9725c3d0b1d h1:Isf5O3MuaQHIpAN3EHA7GF0S0zeGUx9l9iFOggPfNeI=
 github.com/csharpru/go-proto-gql/pb v0.6.2-0.20200420114408-d9725c3d0b1d/go.mod h1:rsZ8Y9DmP6jtkLGek6QjXclGdX4vazFeol2o5aAJ2Gc=
+github.com/csharpru/go-proto-gql/pb v0.6.2-0.20200420123926-b234a69590d8 h1:UOTpqebvj8pQSgYB+XVRCfd8PueFb+YSuGc7M99ABSg=
+github.com/csharpru/go-proto-gql/pb v0.6.2-0.20200420123926-b234a69590d8/go.mod h1:rsZ8Y9DmP6jtkLGek6QjXclGdX4vazFeol2o5aAJ2Gc=
 github.com/csharpru/go-proto-gql/pb v0.7.4-0.20200420114408-d9725c3d0b1d h1:jjzslmvkRkDDVLvsddkSVu3Sj4QB/Y6pY4FpIH6Yl5k=
 github.com/csharpru/go-proto-gql/pb v0.7.4-0.20200420114408-d9725c3d0b1d/go.mod h1:rsZ8Y9DmP6jtkLGek6QjXclGdX4vazFeol2o5aAJ2Gc=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
